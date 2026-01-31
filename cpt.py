@@ -1,6 +1,13 @@
 import os
+import argparse
+import torch
+from unsloth import FastLanguageModel
+from transformers import TrainingArguments
+from unsloth import UnslothTrainer, UnslothTrainingArguments,is_bfloat16_supported
+from datasets import load_dataset
 from dotenv import load_dotenv
-from huggingface_hub import notebook_login,login
+from huggingface_hub import login
+import wandb
 
 
 # Load environment variables from .env file
@@ -10,7 +17,7 @@ WANDB_PROJECT = os.getenv("WANDB_PROJECT")
 WANDB_LOG_MODEL = os.getenv("WANDB_LOG_MODEL")
 WANDB_WATCH = os.getenv("WANDB_WATCH")
 WANDB_API_KEY = os.getenv("WANDB_API_KEY")
-Huggingface_API_TOKEN = os.getenv("Huggingface_API_TOKEN")
+
 
 
 
@@ -39,6 +46,7 @@ def main():
     
     def hf_login():
         """Login to Huggingface Hub using the provided API token."""
+        Huggingface_API_TOKEN = os.getenv("Huggingface_API_TOKEN")
         login(token=Huggingface_API_TOKEN)
         print("Logged in to Huggingface Hub.")
         
