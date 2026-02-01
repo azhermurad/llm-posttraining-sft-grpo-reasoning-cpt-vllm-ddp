@@ -1,17 +1,3 @@
-"""
-Authentication utilities for wandb, HuggingFace, etc.
-"""
-import os
-from typing import Optional
-import wandb
-from huggingface_hub import login as hf_login
-from dotenv import load_dotenv
-
-
-# Load environment variables from .env file
-load_dotenv()
-
-
 
 """
 Authentication utilities for wandb, HuggingFace, etc.
@@ -29,6 +15,7 @@ def load_environment():
         'wandb_api_key': os.getenv('WANDB_API_KEY'),
         'hf_token': os.getenv('Huggingface_API_TOKEN'),
         'wandb_project': os.getenv('WANDB_PROJECT'),
+        "run_id": os.getenv('RUN_ID'),
     }
 
 
@@ -52,13 +39,6 @@ def login_wandb(
         wandb.login(relogin=True, key=api_key)
     else:
         wandb.login(key=api_key)
-    # set the wandb project where this run will be logged
-    os.environ["WANDB_PROJECT"]="cpt-mistral-7b-model"
-    # save your trained model checkpoint to wandb
-    os.environ["WANDB_LOG_MODEL"]="true"
-    # turn off watch to log faster
-    os.environ["WANDB_WATCH"]="false"
-    
     print(f"✓ Logged in to wandb (project: {env_vars['wandb_project']})")
     return True
 
@@ -79,18 +59,7 @@ def login_huggingface():
     print("✓ Logged in to HuggingFace Hub")
     return True
 
-def setup_all_logins():
-    """Setup all required logins (wandb, HF, etc.)"""
-    print("Setting up authentication...")
-    
-    try:
-        login_wandb()
-        login_huggingface()
-        print("\n✓ All authentication successful!")
-        return True
-    except Exception as e:
-        print(f"\n✗ Authentication failed: {e}")
-        return False
+
 
 def init_wandb_run():
     """
@@ -99,11 +68,11 @@ def init_wandb_run():
     """
     
     env_vars = load_environment()
-  
-    project = env_vars['wandb_project']
+    project_name = env_vars['wandb_project']
+    run_id = env_vars['run_id']
     
     run = wandb.init()
-    artifact = run.use_artifact('azheraly009-nust/<Wandb-project-name>/<run-id>', type='model')
+    artifact = run.use_artifact(f'azheraly009-nust/{project_name}/{run_id}', type='model')
     artifact_dir = artifact.download()
     # trainer.train(resume_from_checkpoint=artifact_dir)
         
