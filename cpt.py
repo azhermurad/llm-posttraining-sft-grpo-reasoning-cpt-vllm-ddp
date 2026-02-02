@@ -1,5 +1,7 @@
 import os
 import argparse
+from data.dataset_loader import load_dataset_by_name
+from models.model_loader import load_model
 import torch
 # from unsloth import FastLanguageModel
 # from transformers import TrainingArguments
@@ -37,14 +39,23 @@ def main():
     print(f"  GPU: {args.gpu}")
     
     
-    # login wandb
+    # login wandb and huggingface
     login_wandb()
     login_huggingface()
-    load_config_path = 'cpt_config'
     
-    confg = load_config(load_config_path)
-    print(confg)
-
+    # load model
+    model, tokenizer = load_model("unsloth/Llama-3.2-1B")
+    
+    
+    # load dataset
+    dataset_name = "roneneldan/TinyStories"
+    dataset = load_dataset_by_name(dataset_name, tokenizer)
+    print(f"Loaded dataset: {dataset['text'][0]}")
+    
+    
+    
+    
+ 
     
         
     
