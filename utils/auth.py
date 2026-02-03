@@ -19,7 +19,6 @@ def load_environment():
     }
 
 
-# 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
 def login_wandb(
     relogin: bool = False
 ):
@@ -70,11 +69,21 @@ def init_wandb_run():
     env_vars = load_environment()
     project_name = env_vars['wandb_project']
     run_id = env_vars['run_id']
-    
-    run = wandb.init()
-    artifact = run.use_artifact(f'azheraly009-nust/{project_name}/{run_id}', type='model')
-    artifact_dir = artifact.download()
+
+    api = wandb.Api()
+
+# List all projects under your account
+    for p in api.projects("azheraly009-nust"):
+        print(p.name)
+        
+    print("Entity:", api.viewer.entity)
+    print("Projects:")
+    for p in api.projects(api.viewer.entity):
+        print("-", p.name)
+    # run = wandb.init()
+    # artifact = run.use_artifact(f'azheraly009-nust/{project_name}:latest', type='model')
+    # artifact_dir = artifact.download()
     # trainer.train(resume_from_checkpoint=artifact_dir)
         
-    print(f"✓ wandb run initialized: {run.name}")
-    return run, artifact_dir
+    # print(f"✓ wandb run initialized: {run.name}")
+    # return run, artifact_dir

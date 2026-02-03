@@ -50,7 +50,26 @@ def main():
     # load dataset
     dataset_name = "roneneldan/TinyStories"
     dataset = load_dataset_by_name(dataset_name, tokenizer)
+    
     print(f"Loaded dataset: {dataset['text'][0]}")
+    print(f"Model: {model}")
+    
+    # add lora adapters
+    from models.model_loader import add_lora_adapters
+    model = add_lora_adapters(model)
+    print("Added LoRA adapters to the model.", model)
+    
+    
+    #  taining model 
+    
+    # from training.cpt_trainer import cpt_trainer
+    # trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
+    
+    
+    
+    # init_wandb_run
+    from utils.auth import init_wandb_run
+    print("Initialized wandb run.", init_wandb_run())
     
     
     
