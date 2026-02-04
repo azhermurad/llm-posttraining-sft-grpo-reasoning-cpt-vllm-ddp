@@ -2,6 +2,7 @@
 """
 Authentication utilities for wandb, HuggingFace, etc.
 """
+from asyncio import run
 import os
 from typing import Optional
 import wandb
@@ -70,20 +71,12 @@ def init_wandb_run():
     project_name = env_vars['wandb_project']
     run_id = env_vars['run_id']
 
-    api = wandb.Api()
-
-# List all projects under your account
-    for p in api.projects("azheraly009-nust"):
-        print(p.name)
-        
-    print("Entity:", api.viewer.entity)
-    print("Projects:")
-    for p in api.projects(api.viewer.entity):
-        print("-", p.name)
-    # run = wandb.init()
-    # artifact = run.use_artifact(f'azheraly009-nust/{project_name}:latest', type='model')
+  
+    # artifact = run.use_artifact(f'azheraly009-nust/{project_name}:model-elwfmabm:v0', type='model')
     # artifact_dir = artifact.download()
-    # trainer.train(resume_from_checkpoint=artifact_dir)
-        
-    # print(f"✓ wandb run initialized: {run.name}")
-    # return run, artifact_dir
+    
+    run = wandb.init()
+    artifact = run.use_artifact('azheraly009-nust/cpt-mistral-7b-model/model-eao11oh3:v0', type='model')
+    artifact_dir = artifact.download()
+    print(f"✓ wandb run initialized: {run.name}",artifact_dir)
+    return run, artifact_dir

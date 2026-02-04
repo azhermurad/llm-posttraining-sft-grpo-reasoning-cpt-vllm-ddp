@@ -3,7 +3,7 @@ from transformers import TrainingArguments
 from unsloth import UnslothTrainer, UnslothTrainingArguments
 
 
-max_seq_length = 2048
+max_seq_length = 1048
 
 
 def cpt_trainer(model, tokenizer, dataset):
@@ -27,8 +27,8 @@ def cpt_trainer(model, tokenizer, dataset):
     dataset_num_proc = 8,
 
     args = UnslothTrainingArguments(
-        per_device_train_batch_size = 4,
-        gradient_accumulation_steps = 8,
+        per_device_train_batch_size = 1,
+        gradient_accumulation_steps = 1,
 
         warmup_ratio = 0.1,
         # num_train_epochs = 1,

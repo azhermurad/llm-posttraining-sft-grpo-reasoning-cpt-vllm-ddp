@@ -52,24 +52,21 @@ def main():
     dataset = load_dataset_by_name(dataset_name, tokenizer)
     
     print(f"Loaded dataset: {dataset['text'][0]}")
-    print(f"Model: {model}")
-    
     # add lora adapters
     from models.model_loader import add_lora_adapters
     model = add_lora_adapters(model)
-    print("Added LoRA adapters to the model.", model)
-    
     
     #  taining model 
     
-    # from training.cpt_trainer import cpt_trainer
-    # trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
+    from training.cpt_trainer import cpt_trainer
+    trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
     
     
     
-    # init_wandb_run
-    from utils.auth import init_wandb_run
-    print("Initialized wandb run.", init_wandb_run())
+    # # # init_wandb_run
+    # from utils.auth import init_wandb_run
+    # run, artifact_dir = init_wandb_run()
+    # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = artifact_dir)
     
     
     
