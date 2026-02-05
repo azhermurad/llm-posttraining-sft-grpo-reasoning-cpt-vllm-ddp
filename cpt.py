@@ -10,6 +10,7 @@ import torch
 from dotenv import load_dotenv
 from utils.auth import login_wandb,login_huggingface
 from utils.config_loader import load_config
+from utils.get_checkpoint import get_checkpoint
 
 # Load environment variables from .env file
 load_dotenv()
@@ -59,14 +60,24 @@ def main():
     #  taining model 
     
     from training.cpt_trainer import cpt_trainer
-    trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
+    from utils.get_checkpoint import get_checkpoint
     
-    
-    
-    # # # init_wandb_run
-    # from utils.auth import init_wandb_run
-    # run, artifact_dir = init_wandb_run()
     # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
+    
+    # Use it
+   
+    checkpoint_path = get_checkpoint("llama3_cpt_tinystories")
+    if checkpoint_path:
+        print(f"Resuming from: {checkpoint_path}")
+        # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint=checkpoint_path)
+    else:
+        print("Starting from scratch")
+        # trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
+    
+    # save the model
+    # model.save_pretrained("llama3_cpt_tinystories_final")
+    # tokenizer.save_pretrained("llama3_cpt_tinystories_final")
+    
     
     
 if __name__ == '__main__':
