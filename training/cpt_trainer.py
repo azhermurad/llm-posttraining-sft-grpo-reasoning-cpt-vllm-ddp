@@ -1,6 +1,5 @@
-from trl import SFTTrainer
-from transformers import TrainingArguments
 from unsloth import UnslothTrainer, UnslothTrainingArguments
+from unsloth import is_bfloat16_supported
 
 
 max_seq_length = 1048
@@ -43,8 +42,10 @@ def cpt_trainer(model, tokenizer, dataset):
         seed = 3407,
         output_dir = "llama3_cpt_tinystories",
         save_strategy = "steps",
-        save_steps = 10,
+        save_steps = 50,
         save_total_limit = 2,
+        fp16 = not is_bfloat16_supported(),
+        bf16 = is_bfloat16_supported(),
         # wanddb
         report_to = "wandb", # Use TrackIO/WandB etc
     ),

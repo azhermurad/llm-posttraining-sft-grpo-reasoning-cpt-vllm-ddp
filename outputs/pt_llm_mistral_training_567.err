@@ -1,0 +1,3 @@
+wandb: [wandb.login()] Using explicit session credentials for https://api.wandb.ai.
+wandb: Appending key for api.wandb.ai to your netrc file: /hdd3/seecs/azher.seecs/.netrc
+wandb: Currently logged in as: azheraly009 (azheraly009-nust) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
