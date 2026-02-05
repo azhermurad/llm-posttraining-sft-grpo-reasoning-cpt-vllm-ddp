@@ -59,21 +59,14 @@ def main():
     #  taining model 
     
     from training.cpt_trainer import cpt_trainer
-    trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
+    trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
     
     
     
     # # # init_wandb_run
     # from utils.auth import init_wandb_run
     # run, artifact_dir = init_wandb_run()
-    # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = artifact_dir)
-    
-    
-    
-    
- 
-    
-        
+    # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
     
     
 if __name__ == '__main__':
