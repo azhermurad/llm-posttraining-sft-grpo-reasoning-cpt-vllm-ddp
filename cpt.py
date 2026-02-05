@@ -69,57 +69,6 @@ def main():
         trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
     
     # save the model
-    model.save_pretrained("llama3_cpt_tinystories_final")
-    tokenizer.save_pretrained("llama3_cpt_tinystories_final")
-    
-    
-    from transformers import TextIteratorStreamer
-    from threading import Thread
-    text_streamer = TextIteratorStreamer(tokenizer)
-    import textwrap
-    max_print_width = 100
-
-    # Before running inference, call `FastLanguageModel.for_inference` first
-
-# fast inference
-    from unsloth import FastLanguageModel
-    FastLanguageModel.for_inference(model)
-
-    inputs = tokenizer(
-    [
-        "Once upon a time, in a galaxy, far far away,"
-    ]*1, return_tensors = "pt").to("cuda")
-
-    generation_kwargs = dict(
-        inputs,
-        streamer = text_streamer,
-        max_new_tokens = 256,
-        use_cache = True,
-    )
-    thread = Thread(target = model.generate, kwargs = generation_kwargs)
-    thread.start()
-
-    length = 0
-    for j, new_text in enumerate(text_streamer):
-        if j == 0:
-            wrapped_text = textwrap.wrap(new_text, width = max_print_width)
-            length = len(wrapped_text[-1])
-            wrapped_text = "\n".join(wrapped_text)
-            print(wrapped_text, end = "")
-        else:
-            length += len(new_text)
-            if length >= max_print_width:
-                length = 0
-                print()
-            print(new_text, end = "")
-        pass
-    pass
-    
-    
-    
-    
-    
-if __name__ == '__main__':
-    main()
-    
+    model.save_pretrained("outputs/llama3_cpt_tinystories_final")
+    tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
     

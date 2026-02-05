@@ -43,7 +43,9 @@ echo "=========================================="
 echo ""
 
 # Simple direct execution - no distributed setup needed
-python cpt.py
+# python cpt.py
+python inference.py
+
 
 echo ""
 echo "=========================================="

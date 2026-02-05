@@ -25,7 +25,7 @@ def get_checkpoint(output_dir):
         # Return second to last
         return checkpoints[-2]
     except Exception as e:
-        print(f"Error getting checkpoint:There is no checkpoints in directory {output_dir} or error: {e}")
+        print(f"There is no checkpoints in directory {output_dir} or error: {e}")
         return None
 
 
