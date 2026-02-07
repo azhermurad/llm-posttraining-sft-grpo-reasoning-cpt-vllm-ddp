@@ -46,6 +46,7 @@ def cpt_trainer(model, tokenizer, dataset):
         save_total_limit = 2,
         fp16 = not is_bfloat16_supported(),
         bf16 = is_bfloat16_supported(),
+        # load_best_model_at_end = True, # MUST USE for early stopping
         # wanddb
         report_to = "wandb", # Use TrackIO/WandB etc
     ),

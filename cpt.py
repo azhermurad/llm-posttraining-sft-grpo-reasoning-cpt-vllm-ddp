@@ -9,11 +9,6 @@ from utils.get_checkpoint import get_checkpoint
 # Load environment variables from .env file
 load_dotenv()
 
-
-
-
-
-
 def main():
     parser = argparse.ArgumentParser(description='Model Training')
     # Training parameters
@@ -32,6 +27,7 @@ def main():
     print(f"  Epochs: {args.epochs}")
     print(f"  Model: {args.model}")
     print(f"  GPU: {args.gpu}")
+
     
     
     # login wandb and huggingface
