@@ -1,9 +1,37 @@
-venv
-.env
-__pycache__/
 unsloth_compiled_cache
 llama-3.2-1b-unsloth-bnb-4bit
-wandb
 outputs
 llama3_cpt_tinystories
 llama3_cpt_tinystories_final
+
+
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+
+# Data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Models & Checkpoints
+checkpoints/
+outputs/
+models/
+cache/
+
+# Logs
+logs/
+wandb/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store

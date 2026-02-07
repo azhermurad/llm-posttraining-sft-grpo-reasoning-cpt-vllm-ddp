@@ -17,4 +17,14 @@ weave
 
 
 
+# Name
+# Aql‑1.0‑7B‑Base
+# Aql‑1.0‑7B‑Instruct
+# Aql‑<version>‑<size>‑<variant>
+# Aql → Model brand/name (means intellect/wisdom).
+# version → e.g., 1.0 (first release).
+# size → model size in parameters (3B, 8B, etc.).
+# variant → training type or task (Base, Instruct, Reasoner, Chat, GRPO, PEFT).
+
+
 

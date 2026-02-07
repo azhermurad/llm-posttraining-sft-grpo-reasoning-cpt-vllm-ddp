@@ -30,3 +30,8 @@ def load_config(filename: str) -> Dict[str, Any]:
 
 
 
+
+print("Config loader loaded successfully.", load_config("cpt_config")["model"].get("base_model"))
+
+
+

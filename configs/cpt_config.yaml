@@ -1,6 +1,6 @@
 # Base configuration for all training stages
 model:
-  base_model: "unsloth/mistral-7b-v0.3"
+  base_model: "unsloth/Qwen3-8B"
   max_seq_length: 2048
   dtype: null  # Auto-detect
   load_in_4bit: true
@@ -34,8 +34,7 @@ training:
   seed: 3407
 
 wandb:
-  project: "${WANDB_PROJECT}"
-  entity: "${WANDB_ENTITY}"
+  project: ""
   log_model: true
 
 paths:
