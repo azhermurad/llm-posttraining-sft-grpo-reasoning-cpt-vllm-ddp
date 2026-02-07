@@ -2,7 +2,7 @@ from datasets import load_dataset
 from transformers import AutoTokenizer
 
 # Load Wikipedia dataset (or your local copy)
-dataset = load_dataset("wikipedia", "20220301.en", split="train[:1%]")  # small sample
+dataset = load_dataset("wikipedia", "20231101.ur", split="train[:1%]")  # small sample
 
 # Load CPT tokenizer
 tokenizer = AutoTokenizer.from_pretrained("CPT_model_name")  # replace with CPT model name

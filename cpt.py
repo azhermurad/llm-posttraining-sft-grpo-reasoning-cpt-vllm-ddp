@@ -64,7 +64,12 @@ def main():
         print("Starting from scratch")
         trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
     
-    # save the model
+    # save the model lora adapters and tokenizer
     model.save_pretrained("outputs/llama3_cpt_tinystories_final")
     tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
+    
+    
+    # Saving, loading finetuned models
+    # To save the final model as LoRA adapters, either use Hugging Face's push_to_hub for an online save or save_pretrained for a local save.
+    # [NOTE] This ONLY saves the LoRA adapters, and not the full model. To save to 16bit or GGUF, scroll down!
     
