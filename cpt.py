@@ -65,11 +65,31 @@ def main():
         trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
     
     # save the model lora adapters and tokenizer
-    model.save_pretrained("outputs/llama3_cpt_tinystories_final")
-    tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
-    
+   
     
     # Saving, loading finetuned models
     # To save the final model as LoRA adapters, either use Hugging Face's push_to_hub for an online save or save_pretrained for a local save.
+    model.save_pretrained("outputs/llama3_cpt_tinystories_final")
+    tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
+    
+     # Just LoRA adapters
+    if False:
+        model.save_pretrained("mistral_v0_lora")
+        tokenizer.save_pretrained("mistral_v0_lora")
+    if False:
+        model.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
+        tokenizer.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
+    
+    
     # [NOTE] This ONLY saves the LoRA adapters, and not the full model. To save to 16bit or GGUF, scroll down!
+        
+        # Merge to 16bit
+    if False: model.save_pretrained_merged("mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit",)
+    if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit", token = "YOUR_HF_TOKEN")
+
+    # Merge to 4bit
+    if False: model.save_pretrained_merged("mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit",)
+    if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit", token = "YOUR_HF_TOKEN")
+
+   
     
