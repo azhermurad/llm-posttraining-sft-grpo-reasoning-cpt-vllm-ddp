@@ -1,10 +1,10 @@
 import argparse
-from data.dataset_loader import load_dataset_by_name
-from models.model_loader import load_model
+# from data.dataset_loader import load_dataset_by_name
+# from models.model_loader import load_model
 from dotenv import load_dotenv
 from utils.auth import login_wandb,login_huggingface
 from utils.config_loader import load_config
-from utils.get_checkpoint import get_checkpoint
+# from utils.get_checkpoint import get_checkpoint
 
 # Load environment variables from .env file
 load_dotenv()
@@ -29,67 +29,71 @@ def main():
     print(f"  GPU: {args.gpu}")
 
     
-    
     # login wandb and huggingface
     login_wandb()
     login_huggingface()
     
-    # load model
-    model, tokenizer = load_model("unsloth/Llama-3.2-1B")
+    # # load model
+    # model, tokenizer = load_model("unsloth/Llama-3.2-1B")
     
     
-    # load dataset
-    dataset_name = "roneneldan/TinyStories"
-    dataset = load_dataset_by_name(dataset_name, tokenizer)
+    # # load dataset
+    # dataset_name = "roneneldan/TinyStories"
+    # dataset = load_dataset_by_name(dataset_name, tokenizer)
     
-    print(f"Loaded dataset: {dataset['text'][0]}")
-    # add lora adapters
-    from models.model_loader import add_lora_adapters
-    model = add_lora_adapters(model)
+    # print(f"Loaded dataset: {dataset['text'][0]}")
+    # # add lora adapters
+    # from models.model_loader import add_lora_adapters
+    # model = add_lora_adapters(model)
     
-    #  taining model 
+    # #  taining model 
     
-    from training.cpt_trainer import cpt_trainer
-    from utils.get_checkpoint import get_checkpoint
+    # from training.cpt_trainer import cpt_trainer
+    # from utils.get_checkpoint import get_checkpoint
     
-    # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
+    # # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
     
-    # Use it
+    # # Use it   
+    # checkpoint_path = get_checkpoint("llama3_cpt_tinystories")
+    # if checkpoint_path:
+    #     print(f"Resuming from: {checkpoint_path}")
+    #     trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint=checkpoint_path)
+    # else:
+    #     print("Starting from scratch")
+    #     trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
+    
+    # # save the model lora adapters and tokenizer
    
-    checkpoint_path = get_checkpoint("llama3_cpt_tinystories")
-    if checkpoint_path:
-        print(f"Resuming from: {checkpoint_path}")
-        trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint=checkpoint_path)
-    else:
-        print("Starting from scratch")
-        trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
     
-    # save the model lora adapters and tokenizer
-   
+    # # Saving, loading finetuned models
+    # # To save the final model as LoRA adapters, either use Hugging Face's push_to_hub for an online save or save_pretrained for a local save.
+    # model.save_pretrained("outputs/llama3_cpt_tinystories_final")
+    # tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
     
-    # Saving, loading finetuned models
-    # To save the final model as LoRA adapters, either use Hugging Face's push_to_hub for an online save or save_pretrained for a local save.
-    model.save_pretrained("outputs/llama3_cpt_tinystories_final")
-    tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
-    
-     # Just LoRA adapters
-    if False:
-        model.save_pretrained("mistral_v0_lora")
-        tokenizer.save_pretrained("mistral_v0_lora")
-    if False:
-        model.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
-        tokenizer.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
+    #  # Just LoRA adapters
+    # if False:
+    #     model.save_pretrained("mistral_v0_lora")
+    #     tokenizer.save_pretrained("mistral_v0_lora")
+    # if False:
+    #     model.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
+    #     tokenizer.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
     
     
-    # [NOTE] This ONLY saves the LoRA adapters, and not the full model. To save to 16bit or GGUF, scroll down!
+    # # [NOTE] This ONLY saves the LoRA adapters, and not the full model. To save to 16bit or GGUF, scroll down!
         
-        # Merge to 16bit
-    if False: model.save_pretrained_merged("mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit",)
-    if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit", token = "YOUR_HF_TOKEN")
+    #     # Merge to 16bit
+    # if False: model.save_pretrained_merged("mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit",)
+    # if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit", token = "YOUR_HF_TOKEN")
 
-    # Merge to 4bit
-    if False: model.save_pretrained_merged("mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit",)
-    if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit", token = "YOUR_HF_TOKEN")
+    # # Merge to 4bit
+    # if False: model.save_pretrained_merged("mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit",)
+    # if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit", token = "YOUR_HF_TOKEN")
+    
+    print("Config loader loaded successfully.", load_config("cpt_config"))
+    
+
+if __name__ == "__main__":
+    main()
 
    
     

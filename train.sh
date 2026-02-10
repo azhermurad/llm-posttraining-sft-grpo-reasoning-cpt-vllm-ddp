@@ -42,9 +42,7 @@ echo "Start Time: $(date)"
 echo "=========================================="
 echo ""
 
-# Simple direct execution - no distributed setup needed
-# python cpt.py
-python inference.py
+# Simple direct execution - no distributed setpython inference.py
 
 
 echo ""

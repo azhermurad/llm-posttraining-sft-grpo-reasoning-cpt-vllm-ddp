@@ -4,6 +4,7 @@ model:
   max_seq_length: 2048 # Choose any! We auto support RoPE Scaling internally!
   dtype: None  # None for auto detection. Float16 for Tesla T4, V100, Bfloat16 for Ampere+
   load_in_4bit: True  # Use 4bit quantization to reduce memory usage. Can be False 16 Bit Default.
+  load_in_8bit: False # Use 8bit quantization to reduce memory usage. Can be False 16 Bit Default.
 
 # Add LoRA adapters so we only need to update 1 to 10% of all parameters! 
 # We also add embed_tokens and lm_head to allow the model to learn out of distribution data.
