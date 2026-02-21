@@ -29,6 +29,15 @@ def load_model(model_name: str) -> FastLanguageModel:
         raise RuntimeError(f"Failed to load model {model_name}")
     
     return model, tokenizer
+
+
+# model, tokenizer = FastLanguageModel.from_pretrained(
+#     model_name=config["model"]["base_model"],
+#     max_seq_length=config["model"]["max_seq_length"],
+#     dtype=config["model"]["dtype"],
+#     load_in_4bit=config["model"]["load_in_4bit"],
+#     load_in_8bit=config["model"]["load_in_8bit"],
+# )
     
     
 # Add LoRA adapters
@@ -63,3 +72,16 @@ def add_lora_adapters(model: FastLanguageModel) -> FastLanguageModel:
         raise RuntimeError("Failed to add LoRA adapters")
     
     return model
+
+# model = FastLanguageModel.get_peft_model(
+#     model,
+#     r=config["lora"]["r"],
+#     lora_alpha=config["lora"]["lora_alpha"],
+#     lora_dropout=config["lora"]["lora_dropout"],
+#     bias=config["lora"]["bias"],
+#     target_modules=config["lora"]["target_modules"],
+#     use_gradient_checkpointing=config["lora"]["use_gradient_checkpointing"],
+#     random_state=config["lora"]["random_state"],
+#     use_rslora=config["lora"]["use_rslora"],
+#     loftq_config=config["lora"]["loftq_config"],
+# )

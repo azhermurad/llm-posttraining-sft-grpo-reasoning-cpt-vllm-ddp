@@ -17,6 +17,12 @@ def load_dataset_by_name(dataset_name: str,tokenizer, split: str = 'train'):
     try:
         dataset = load_dataset("roneneldan/TinyStories", split = "validation[:2500]")
         
+# dataset = load_dataset(
+#     config["dataset"]["name"],
+#     config["dataset"]["config"],
+#     split=config["dataset"]["split"],
+# )
+        
         EOS_TOKEN = tokenizer.eos_token
         def formatting_prompts_func(examples):
             return { "text" : [example + EOS_TOKEN for example in examples["text"]] }
