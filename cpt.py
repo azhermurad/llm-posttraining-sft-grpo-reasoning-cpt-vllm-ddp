@@ -2,6 +2,7 @@ import argparse
 # from data.dataset_loader import load_dataset_by_name
 # from models.model_loader import load_model
 from dotenv import load_dotenv
+from models.model_loader import load_model
 from utils.auth import login_wandb,login_huggingface
 from utils.config_loader import load_config
 # from utils.get_checkpoint import get_checkpoint
@@ -33,8 +34,10 @@ def main():
     login_wandb()
     login_huggingface()
     
+    
+    cpt_config = load_config("cpt_config")
     # # load model
-    # model, tokenizer = load_model("unsloth/Llama-3.2-1B")
+    model, tokenizer = load_model("unsloth/Llama-3.2-1B")
     
     
     # # load dataset
@@ -90,8 +93,11 @@ def main():
     # if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit", token = "YOUR_HF_TOKEN")
     
     print("Config loader loaded successfully.", load_config("cpt_config"))
+    print(load_config("cpt_config")["lora"]["target_modules"])
+    print(load_config("cpt_config")["model_config"])
     
-
+   
+    
 if __name__ == "__main__":
     main()
 
