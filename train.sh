@@ -1,8 +1,8 @@
 #!/bin/bash
-#SBATCH --job-name=cpt_llm_mistral_1b
-#SBATCH --output=outputs/pt_llm_mistral_training_%j.out
-#SBATCH --error=outputs/pt_llm_mistral_training_%j.err
-#SBATCH --nodelist=compute1          # Force execution on compute1
+#SBATCH --job-name=cpt_qwen
+#SBATCH --output=outputs/pt_llm_qwen_training_%j.out
+#SBATCH --error=outputs/pt_llm_qwen_training_%j.err
+# SBATCH --nodelist=compute3         # Force execution on compute1
 #SBATCH --nodes=1                     # Single node
 #SBATCH --ntasks=1                    # Single task
 #SBATCH --cpus-per-task=4             # CPU cores
@@ -10,7 +10,6 @@
 # MAX allowed by cluster
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=64G                     # Memory
-
 # Print job information
 echo "=========================================="
 echo "SLURM Job Information"
@@ -26,6 +25,7 @@ echo "=========================================="
 echo ""
 
 # Activate virtual environment
+
 eval "$(conda shell.bash hook)"
 conda activate venv
 python -V

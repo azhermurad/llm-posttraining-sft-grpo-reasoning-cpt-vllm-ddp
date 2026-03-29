@@ -2,7 +2,7 @@ import argparse
 # from data.dataset_loader import load_dataset_by_name
 # from models.model_loader import load_model
 from dotenv import load_dotenv
-from models.model_loader import load_model
+from models.model_loader import load_model,add_lora_adapters
 from utils.auth import login_wandb,login_huggingface
 from utils.config_loader import load_config
 # from utils.get_checkpoint import get_checkpoint
@@ -34,10 +34,14 @@ def main():
     login_wandb()
     login_huggingface()
     
-    
+    # load configuration from  .yaml for cpt intead of ArugumentParser 
     cpt_config = load_config("cpt_config")
-    # # load model
-    model, tokenizer = load_model("unsloth/Llama-3.2-1B")
+    
+    # load model
+    model, tokenizer = load_model(cpt_config["model_config"])
+    
+    # add lora adapters
+    # model = add_lora_adapters(model,cpt_config['lora])
     
     
     # # load dataset
@@ -45,9 +49,7 @@ def main():
     # dataset = load_dataset_by_name(dataset_name, tokenizer)
     
     # print(f"Loaded dataset: {dataset['text'][0]}")
-    # # add lora adapters
-    # from models.model_loader import add_lora_adapters
-    # model = add_lora_adapters(model)
+   
     
     # #  taining model 
     
@@ -93,8 +95,8 @@ def main():
     # if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit", token = "YOUR_HF_TOKEN")
     
     print("Config loader loaded successfully.", load_config("cpt_config"))
-    print(load_config("cpt_config")["lora"]["target_modules"])
-    print(load_config("cpt_config")["model_config"])
+    # print(load_config("cpt_config")["lora"]["target_modules"])
+    # print(load_config("cpt_config")["model_config"])
     
    
     
