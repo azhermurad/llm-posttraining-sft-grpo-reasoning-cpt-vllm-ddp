@@ -55,8 +55,8 @@ training:
  
 
 dataset:
-  name: "wikipedia"
-  config: "20231101.ur"
+  name: "wikimedia/wikipedia"
+  language: "20231101.ur"
   split: "train[:1%]"
 
 wandb:

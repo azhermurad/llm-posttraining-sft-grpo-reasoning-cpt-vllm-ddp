@@ -1,5 +1,4 @@
-from unsloth import UnslothTrainer, UnslothTrainingArguments
-from unsloth import is_bfloat16_supported
+from unsloth import UnslothTrainer, UnslothTrainingArguments,is_bfloat16_supported
 
 
 max_seq_length = 1048

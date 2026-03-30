@@ -1,6 +1,5 @@
 import argparse
-# from data.dataset_loader import load_dataset_by_name
-# from models.model_loader import load_model
+from data.dataset_loader import load_dataset_by_name
 from dotenv import load_dotenv
 from models.model_loader import load_model,add_lora_adapters
 from utils.auth import login_wandb,login_huggingface
@@ -11,23 +10,21 @@ from utils.config_loader import load_config
 load_dotenv()
 
 def main():
-    parser = argparse.ArgumentParser(description='Model Training')
-    # Training parameters
-    parser.add_argument('--batch', type=int, default=32, help='Batch size')
-    parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
-    parser.add_argument('--epochs', type=int, default=10, help='Training epochs')
-    parser.add_argument('--model', type=str, default='resnet', help='Model name')
-    parser.add_argument('--gpu', action='store_true', help='Use GPU')
-    
-    args = parser.parse_args()
-    
-    # Your training code
-    print(f"Training with:")
-    print(f"  Batch size: {args.batch}")
-    print(f"  Learning rate: {args.lr}")
-    print(f"  Epochs: {args.epochs}")
-    print(f"  Model: {args.model}")
-    print(f"  GPU: {args.gpu}")
+    # parser = argparse.ArgumentParser(description='Model Training')
+    # # Training parameters
+    # parser.add_argument('--batch', type=int, default=32, help='Batch size')
+    # parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
+    # parser.add_argument('--epochs', type=int, default=10, help='Training epochs')
+    # parser.add_argument('--model', type=str, default='resnet', help='Model name')
+    # parser.add_argument('--gpu', action='store_true', help='Use GPU')
+    # args = parser.parse_args()
+    # # Your training code
+    # print(f"Training with:")
+    # print(f"  Batch size: {args.batch}")
+    # print(f"  Learning rate: {args.lr}")
+    # print(f"  Epochs: {args.epochs}")
+    # print(f"  Model: {args.model}")
+    # print(f"  GPU: {args.gpu}")
 
     
     # login wandb and huggingface
@@ -39,19 +36,21 @@ def main():
     
     # load model
     model, tokenizer = load_model(cpt_config["model_config"])
-    
     # add lora adapters
-    # model = add_lora_adapters(model,cpt_config['lora])
+    model = add_lora_adapters(model,cpt_config['lora'])
+    
     
     
     # # load dataset
-    # dataset_name = "roneneldan/TinyStories"
-    # dataset = load_dataset_by_name(dataset_name, tokenizer)
     
-    # print(f"Loaded dataset: {dataset['text'][0]}")
+    # dataset = load_dataset("wikimedia/wikipedia", "20231101.ko", split = "train",)
+    dataset = load_dataset_by_name(cpt_config["dataset"]["name"],cpt_config["dataset"]["language"], tokenizer)
+    print(f"Loaded dataset: {dataset}")
+    
+    
    
     
-    # #  taining model 
+    # Continued Pretraining
     
     # from training.cpt_trainer import cpt_trainer
     # from utils.get_checkpoint import get_checkpoint
@@ -95,9 +94,6 @@ def main():
     # if False: model.push_to_hub_merged("HF_USERNAME/mistral_v0_finetune_4bit", tokenizer, save_method = "merged_4bit", token = "YOUR_HF_TOKEN")
     
     print("Config loader loaded successfully.", load_config("cpt_config"))
-    # print(load_config("cpt_config")["lora"]["target_modules"])
-    # print(load_config("cpt_config")["model_config"])
-    
    
     
 if __name__ == "__main__":
