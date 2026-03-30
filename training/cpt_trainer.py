@@ -1,16 +1,16 @@
 from unsloth import UnslothTrainer, UnslothTrainingArguments,is_bfloat16_supported
 
 
-max_seq_length = 1048
 
-
-def cpt_trainer(model, tokenizer, dataset):
+def cpt_trainer(model, tokenizer, dataset,config):
     """
     Create and return an UnslothTrainer for training the model.
     Args:
         model (FastLanguageModel): The language model to be trained.
         tokenizer (Tokenizer): The tokenizer associated with the model.
         dataset: The dataset to be used for training.
+        config: cpt configuration
+        
     Returns:
         trainer (UnslothTrainer): The configured UnslothTrainer instance.  
         
@@ -21,35 +21,42 @@ def cpt_trainer(model, tokenizer, dataset):
     tokenizer = tokenizer,
     train_dataset = dataset,
     dataset_text_field = "text",
-    max_seq_length = max_seq_length,
-    dataset_num_proc = 8,
+    max_seq_length = int(config['model_config']['max_seq_length']),
+    dataset_num_proc =  4,
 
     args = UnslothTrainingArguments(
-        per_device_train_batch_size = 1,
-        gradient_accumulation_steps = 1,
+        per_device_train_batch_size = int(config['training']['per_device_train_batch_size']),
+        gradient_accumulation_steps = int(config['training']['gradient_accumulation_steps'] ),
+        
+        
+        # Use warmup_ratio and num_train_epochs for longer runs!
+        max_steps = int(config['training']['max_steps']),
+        warmup_steps = int(config['training']['max_steps']),
+        # warmup_ratio = config['training']["warmup_ratio"],
+        # num_train_epochs = config['training']['num_train_epochs'],
 
-        warmup_ratio = 0.1,
-        # num_train_epochs = 1,
-        max_steps = 50,
-        learning_rate = 5e-5,
-        embedding_learning_rate = 5e-6,
+
+        # Select a 2 to 10x smaller learning rate for the embedding matrices!
+        learning_rate =  float(config['training']["learning_rate"]),
+        embedding_learning_rate =  float(config['training']["embedding_learning_rate"]),
 
         logging_steps = 1,
-        optim = "adamw_8bit",
-        weight_decay = 0.00,
-        lr_scheduler_type = "cosine",
+        optim =  config['training']['optim'],
+        weight_decay = 0.001,
+        lr_scheduler_type = config["training"]['lr_scheduler_type'],
         seed = 3407,
-        output_dir = "llama3_cpt_tinystories",
+        
+        output_dir = config["paths"]["output_dir"],
         save_strategy = "steps",
-        save_steps = 50,
-        save_total_limit = 2,
+        save_steps =int(config["training"]["save_steps"] ),
+        save_total_limit = int(config["training"]["save_total_limit"]),
         fp16 = not is_bfloat16_supported(),
         bf16 = is_bfloat16_supported(),
         # load_best_model_at_end = True, # MUST USE for early stopping
         # wanddb
-        report_to = "wandb", # Use TrackIO/WandB etc
+        report_to = config["training"]["report_to"], # Use TrackIO/WandB etc
     ),
-)
+    )
     
     # from transformers import EarlyStoppingCallback
     # early_stopping_callback = EarlyStoppingCallback(

@@ -32,7 +32,7 @@ def load_dataset_by_name(dataset_name: str,language: str,tokenizer, split: str =
         dataset = load_dataset(dataset_name, language, split = split)
         
         # We select 1% of the data to make training faster!
-        # dataset = dataset.train_test_split(train_size = 0.01)["train"]
+        dataset = dataset.train_test_split(train_size = 0.01)["train"]
         
         EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
         

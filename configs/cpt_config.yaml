@@ -1,7 +1,7 @@
 # Base configuration for all training stages
 model_config:
   model_name: "unsloth/Qwen2.5-1.5B"
-  max_seq_length: 2048 # Choose any! We auto support RoPE Scaling internally!
+  max_seq_length: 1048 # Choose any! We auto support RoPE Scaling internally!
   dtype: None  # None for auto detection. Float16 for Tesla T4, V100, Bfloat16 for Ampere+
   load_in_4bit: False  # Use 4bit quantization to reduce memory usage. Can be False 16 Bit Default.
   load_in_8bit: False # Use 8bit quantization to reduce memory usage. Can be False 16 Bit Default.
@@ -29,11 +29,11 @@ lora:
   
 
 training:
-  per_device_train_batch_size: 2
-  gradient_accumulation_steps: 4
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 2
 
   warmup_steps: 10
-  max_steps: 30
+  max_steps: 50
   # warmup_ratio = 0.1,
   # num_train_epochs: 1
 
@@ -42,7 +42,7 @@ training:
   learning_rate: 5e-5
   embedding_learning_rate: 1e-5
 
-  save_steps: 100
+  save_steps: 10
   save_total_limit: 2
 
   logging_steps: 1
@@ -63,7 +63,6 @@ wandb:
   project: ""
 
 paths:
-  output_dir: "Aqal-1.0-8B-Base-lora"
-  checkpoint_dir: "./checkpoints"
-  final_model_local_save_dir_name: "Aqal-1.0-8B-Base" # Aql‑1.0‑7B‑Base
-  final_model_hub_save_dir_name: "Aqal-1.0-8B-Base" # Aql‑1.0‑7B‑Base
+  output_dir: "Aqal-1.0-1.5B-Base-lora-checkpoints"
+  final_model_local_save_dir_name: "Aqal-1.0-1.5B-Base-lora" # Aql‑1.0‑7B‑Base
+  final_model_hub_save_dir_name: "Aqal-1.0-1.5B-Base-lora" # Aql‑1.0‑7B‑Base

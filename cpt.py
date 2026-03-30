@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 from models.model_loader import load_model,add_lora_adapters
 from utils.auth import login_wandb,login_huggingface
 from utils.config_loader import load_config
-# from utils.get_checkpoint import get_checkpoint
+from training.cpt_trainer import cpt_trainer
+from utils.get_checkpoint import get_checkpoint
 
 # Load environment variables from .env file
 load_dotenv()
@@ -47,43 +48,32 @@ def main():
     dataset = load_dataset_by_name(cpt_config["dataset"]["name"],cpt_config["dataset"]["language"], tokenizer)
     print(f"Loaded dataset: {dataset}")
     
-    
-   
-    
     # Continued Pretraining
     
-    # from training.cpt_trainer import cpt_trainer
-    # from utils.get_checkpoint import get_checkpoint
+    checkpoint_path = get_checkpoint(cpt_config["paths"]["output_dir"])
     
-    # # trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint = True)
-    
-    # # Use it   
-    # checkpoint_path = get_checkpoint("llama3_cpt_tinystories")
-    # if checkpoint_path:
-    #     print(f"Resuming from: {checkpoint_path}")
-    #     trainer_stats = cpt_trainer(model, tokenizer, dataset).train(resume_from_checkpoint=checkpoint_path)
-    # else:
-    #     print("Starting from scratch")
-    #     trainer_stats = cpt_trainer(model, tokenizer, dataset).train()
+    if checkpoint_path:
+        print(f"Resuming from: {checkpoint_path}")
+        trainer_stats = cpt_trainer(model, tokenizer, dataset,cpt_config).train(resume_from_checkpoint=checkpoint_path)
+    else:
+        print("Starting from scratch")
+        trainer_stats = cpt_trainer(model, tokenizer, dataset,cpt_config).train()
     
     # # save the model lora adapters and tokenizer
    
     
-    # # Saving, loading finetuned models
-    # # To save the final model as LoRA adapters, either use Hugging Face's push_to_hub for an online save or save_pretrained for a local save.
-    # model.save_pretrained("outputs/llama3_cpt_tinystories_final")
-    # tokenizer.save_pretrained("outputs/llama3_cpt_tinystories_final")
-    
-    #  # Just LoRA adapters
-    # if False:
-    #     model.save_pretrained("mistral_v0_lora")
-    #     tokenizer.save_pretrained("mistral_v0_lora")
-    # if False:
-    #     model.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
-    #     tokenizer.push_to_hub("HF_USERNAME/mistral_v0_lora", token = "YOUR_HF_TOKEN")
+    # Saving, loading finetuned models
+    # To save the final model as LoRA adapters, either use Hugging Face's push_to_hub for an online save or save_pretrained for a local save.
+     # Just LoRA adapters
+    if True:
+        model.save_pretrained(cpt_config["paths"]["final_model_local_save_dir_name"])
+        tokenizer.save_pretrained(cpt_config["paths"]["final_model_local_save_dir_name"])
+    if True:
+        model.push_to_hub( cpt_config["paths"]["final_model_hub_save_dir_name"])
+        tokenizer.push_to_hub(cpt_config["paths"]["final_model_hub_save_dir_name"])
     
     
-    # # [NOTE] This ONLY saves the LoRA adapters, and not the full model. To save to 16bit or GGUF, scroll down!
+    # # [NOTE] This ONLY saves the LoRA adapters, and not the full model. To save to 16bit or GGUF
         
     #     # Merge to 16bit
     # if False: model.save_pretrained_merged("mistral_v0_finetune_16bit", tokenizer, save_method = "merged_16bit",)
