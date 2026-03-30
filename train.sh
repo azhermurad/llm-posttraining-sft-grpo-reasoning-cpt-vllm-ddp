@@ -34,6 +34,7 @@ python -V
 export HF_HUB_DISABLE_XET=1
 
 # Start training
+python script.py
 
 
 # Start training

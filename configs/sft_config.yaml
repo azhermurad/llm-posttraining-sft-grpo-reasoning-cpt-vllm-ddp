@@ -1,4 +1,6 @@
 
+model_config:
+  max_seq_length: 1048 # Choose any! We auto support RoPE Scaling internally!
 
 training:
   per_device_train_batch_size: 1
@@ -31,3 +33,8 @@ dataset:
   language: "20231101.ur"
   split: "train[:1%]"
 
+
+paths:
+  output_dir: "Aqal-1.0-1.5B-instruct-lora-checkpoints"
+  final_model_local_save_dir_name: "Aqal-1.0-1.5B-instruct-lora" # Aql‑1.0‑7B‑Base
+  final_model_hub_save_dir_name: "Aqal-1.0-1.5B-instruct-lora" # Aql‑1.0‑7B‑Base
