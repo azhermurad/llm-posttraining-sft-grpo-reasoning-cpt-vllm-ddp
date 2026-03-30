@@ -3,6 +3,8 @@ outputs
 _unsloth_temporary_saved_buffers
 Aqal-1.0-1.5B-Base-lora-checkpoints
 Aqal-1.0-1.5B-Base-lora
+qal-1.0-1.5B-instruct-lora-checkpoints
+qal-1.0-1.5B-instruct-lora
 
 
 # Environment
